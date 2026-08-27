@@ -14,18 +14,19 @@ let webtoons = [
   }
 ];
 
-/*Génération automatique de cartes*/
+/*Génération automatique de cartes avec le boutton de suppression*/
 function afficherCartes(liste, idSection) {
   const conteneur = document.querySelector(`#${idSection} .grille-cartes`);
   conteneur.innerHTML = "";
 
-  liste.forEach(function (item) {
+  liste.forEach(function (item, index) {
     conteneur.innerHTML += `
       <article class="carte">
         <img src="https://via.placeholder.com/150x220" alt="Affiche">
         <h3>${item.titre}</h3>
         <p class="synopsis">${item.synopsis}</p>
         <p class="note">&#11088; ${item.note}/10</p>
+        <button class="bouton-supprimer" data-index="${index}" data-liste="${idSection}">Supprimer</button>
       </article>
     `;
   });
@@ -36,7 +37,6 @@ afficherCartes(webtoons, "section-webtoons");
 
 /*ecoute de la soumission du formulaire et ajout à la bonne liste*/
 const formulaire = document.getElementById("formulaire-ajout");
-
 formulaire.addEventListener("submit", function (evenement) {
   evenement.preventDefault();
 
@@ -58,6 +58,23 @@ formulaire.addEventListener("submit", function (evenement) {
 
   formulaire.reset();
 });
+
+/*ecoute du bouton de suppression*/ 
+document.addEventListener("click", function (evenement) {
+  if (evenement.target.classList.contains("bouton-supprimer")) {
+    const index = evenement.target.dataset.index;
+    const idListe = evenement.target.dataset.liste;
+
+    if (idListe === "section-animes") {
+      animes.splice(index, 1);
+      afficherCartes(animes, "section-animes");
+    } else {
+      webtoons.splice(index, 1);
+      afficherCartes(webtoons, "section-webtoons");
+    }
+  }
+});
+
 
 /* Gestion du thème sombre/clair */
 const boutonTheme = document.getElementById("bouton-theme");
