@@ -1,0 +1,104 @@
+/* Thème clair*/
+:root {
+    --fond: #f5f0e6;
+    --texte: #1a1613;
+    --accent: #d62828;
+    --carte: #ffffff;
+    --bordure: #e3d9c6;
+}
+
+/* Thème sombre*/
+:root[data-theme="dark"] {
+    --fond: #15130f;
+    --texte: #f0ead9;
+    --accent: #ff4a4a;
+    --carte: #211e19;
+    --bordure: #332e26;
+}
+
+/* Réinitialisation des styles par défaut */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    background-color: var(--fond);
+    color: var(--texte);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Styles pour le header */
+header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 0.05rem;
+}
+
+header p {
+    color: var(--texte);
+    opacity: 0.7;
+    margin-top: 0.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem 1rem 1rem;
+    padding-left: 0.75rem;
+    border-left: 4px solid var(--accent);
+}
+
+/* grille de cartes */
+.grille-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+/* Styles pour les cartes */
+.carte {
+  background-color: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.carte:hover {
+  transform: translateY(-4px);
+}
+
+.carte img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/*Texte de la carte*/
+.carte h3 {
+  font-size: 1.1rem;
+  margin: 0.75rem 0.75rem 0.5rem;
+}
+
+.carte .synopsis {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin: 0 0.75rem 0.75rem;
+  line-height: 1.4;
+}
+
+.carte .note {
+  font-weight: bold;
+  color: var(--accent);
+  margin: 0 0.75rem 1rem;
+} 
