@@ -13,6 +13,19 @@
         <button id="bouton-theme">&#127769; Mode sombre</button>
     </header>
 
+    <form id="formulaire-ajout">
+        <input type="text" id="input-titre" placeholder="Titre" required>
+        <textarea id="input-synopsis" placeholder="Synopsis"></textarea>
+        <input type="number" id="input-note" placeholder="Note /10" min="0" max="10" required>
+
+        <select id="input-type">
+            <option value="anime">Animé</option>
+            <option value="webtoon">Webtoon</option>
+        </select>
+
+        <button type="submit">Ajouter</button>
+    </form>
+
     <main>
         <section id="section-animes">
             <h2>Animés</h2>
@@ -23,9 +36,6 @@
         <section id="section-webtoons">
             <h2>Webtoons</h2>
             <div class="grille-cartes">
-
-                
-                
             </div>
         </section>
 

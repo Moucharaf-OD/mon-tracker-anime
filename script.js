@@ -34,6 +34,31 @@ function afficherCartes(liste, idSection) {
 afficherCartes(animes, "section-animes");
 afficherCartes(webtoons, "section-webtoons");
 
+/*ecoute de la soumission du formulaire et ajout à la bonne liste*/
+const formulaire = document.getElementById("formulaire-ajout");
+
+formulaire.addEventListener("submit", function (evenement) {
+  evenement.preventDefault();
+
+  const nouvelleEntree = {
+    titre: document.getElementById("input-titre").value,
+    synopsis: document.getElementById("input-synopsis").value,
+    note: document.getElementById("input-note").value
+  };
+
+  const type = document.getElementById("input-type").value;
+
+  if (type === "anime") {
+    animes.push(nouvelleEntree);
+    afficherCartes(animes, "section-animes");
+  } else {
+    webtoons.push(nouvelleEntree);
+    afficherCartes(webtoons, "section-webtoons");
+  }
+
+  formulaire.reset();
+});
+
 /* Gestion du thème sombre/clair */
 const boutonTheme = document.getElementById("bouton-theme");
 const html = document.documentElement;
