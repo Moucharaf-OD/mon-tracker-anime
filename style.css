@@ -8,7 +8,7 @@
 }
 
 /* Thème sombre*/
-:root[data-theme="dark"] {
+:root[data-theme="sombre"] {
     --fond: #15130f;
     --texte: #f0ead9;
     --accent: #ff4a4a;
