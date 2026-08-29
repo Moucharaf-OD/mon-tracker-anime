@@ -52,6 +52,14 @@ app.delete('/api/animes/:id', (req, res) => {
   res.json({ message: `Animé avec l'ID ${id} supprimé.` });
 });
 
+// Nouvelle route : supprime un webtoon de la base de données
+app.delete('/api/webtoons/:id', (req, res) => {
+    const { id } = req.params;
+    const stmt = db.prepare('DELETE FROM webtoons WHERE id = ?');
+    stmt.run(id);
+    res.json({ message: `Webtoon avec l'ID ${id} supprimé.` });
+});
+
 // On démarre le serveur, il écoute maintenant sur le port 3000
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
