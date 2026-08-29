@@ -60,7 +60,7 @@ formulaire.addEventListener("submit", async function (evenement) {
   })
 
   if (type === "anime") {
-    chargerAnimes
+    chargerAnimes()
   } else {
     chargerWebtoons();
   }
