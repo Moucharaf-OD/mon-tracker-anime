@@ -60,6 +60,24 @@ app.delete('/api/webtoons/:id', (req, res) => {
     res.json({ message: `Webtoon avec l'ID ${id} supprimé.` });
 });
 
+// Nouvelle route : met à jour un animé dans la base de données
+app.put('/api/animes/:id', (req, res) => {
+  const { id } = req.params;
+    const { titre, synopsis, note } = req.body;
+    const stmt = db.prepare('UPDATE animes SET titre = ?, synopsis = ?, note = ? WHERE id = ?');
+    stmt.run(titre, synopsis, note, id);
+    res.json({ id, titre, synopsis, note });
+});
+
+// Nouvelle route : met à jour un webtoon dans la base de données
+app.put('/api/webtoons/:id', (req, res) => {
+    const { id } = req.params;
+    const { titre, synopsis, note } = req.body;
+    const stmt = db.prepare('UPDATE webtoons SET titre = ?, synopsis = ?, note = ? WHERE id = ?');
+    stmt.run(titre, synopsis, note, id);
+    res.json({ id, titre, synopsis, note });
+});
+
 // On démarre le serveur, il écoute maintenant sur le port 3000
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
