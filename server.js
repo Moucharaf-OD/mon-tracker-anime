@@ -36,6 +36,14 @@ app.post('/api/animes', (req, res) => {
   res.json({ id: resultat.lastInsertRowid, titre, synopsis, note });
 });
 
+//Nouvelle route : ajoute un webtoon à la base de données
+app.post('/api/webtoons', (req, res) => {
+    const { titre, synopsis, note } = req.body;
+    const stmt = db.prepare('INSERT INTO webtoons (titre, synopsis, note) VALUES (?, ?, ?)');
+    const resultat = stmt.run(titre, synopsis, note);
+    res.json({ id: resultat.lastInsertRowid, titre, synopsis, note });
+});
+
 // On démarre le serveur, il écoute maintenant sur le port 3000
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
