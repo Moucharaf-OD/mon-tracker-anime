@@ -1,12 +1,16 @@
 // importation d'Express,déjà installé avec npm
 const express = require('express');
 
+const cors = require('cors');
+
+
 // importation de la base de données
 const db = require('./database.js');
 
 // On crée une "application" Express — c'est notre serveur
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // On définit sur quel port le serveur va écouter
 const PORT = 3000;

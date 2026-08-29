@@ -1,18 +1,20 @@
 /*Tableau de données pour les animés/webtoon */
-let animes = [
-  {
-    titre: "Nom de l'animé",
-    synopsis: "Description de l'animé",
-    note: 8
-  }
-];
-let webtoons = [
-  {
-    titre: "Nom du webtoon",
-    synopsis: "Description du webtoon",
-    note: 9
-  }
-];
+let animes = [];
+let webtoons = []
+
+//Chargement des animes depuis l'API
+async function chargerAnimes() {
+  const reponse = await fetch('http://localhost:3000/api/animes');
+  animes = await reponse.json();
+  afficherCartes(animes, "section-animes");
+}
+
+//Chargement des webtoons depuis l'API
+async function chargerWebtoons() {
+  const reponse = await fetch('http://localhost:3000/api/webtoons');
+  webtoons = await reponse.json();
+  afficherCartes(webtoons, "section-webtoons");
+}
 
 /*Génération automatique de cartes avec le boutton de suppression*/
 function afficherCartes(liste, idSection) {
@@ -32,8 +34,8 @@ function afficherCartes(liste, idSection) {
   });
 }
 
-afficherCartes(animes, "section-animes");
-afficherCartes(webtoons, "section-webtoons");
+chargerAnimes();
+chargerWebtoons();
 
 /*ecoute de la soumission du formulaire et ajout à la bonne liste*/
 const formulaire = document.getElementById("formulaire-ajout");
