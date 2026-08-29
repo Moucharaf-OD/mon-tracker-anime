@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Moucharaf-OD/mon-tracker-anime#readme",
   "dependencies": {
+    "better-sqlite3": "^13.0.3",
     "express": "^5.2.1"
   }
 }
