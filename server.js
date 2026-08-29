@@ -21,6 +21,12 @@ app.get('/api/animes', (req, res) => {
   res.json(animes);
 });
 
+//Nouvelle route : renvoie tous les webtoons stockés dans la base de données
+app.get('/api/webtoons', (req, res) => {
+  const webtoons = db.prepare('SELECT * FROM webtoons').all();
+  res.json(webtoons);
+});
+
 // On démarre le serveur, il écoute maintenant sur le port 3000
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
