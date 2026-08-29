@@ -28,7 +28,7 @@ function afficherCartes(liste, idSection) {
         <h3>${item.titre}</h3>
         <p class="synopsis">${item.synopsis}</p>
         <p class="note">&#11088; ${item.note}/10</p>
-        <button class="bouton-supprimer" data-index="${index}" data-liste="${idSection}">Supprimer</button>
+        <button class="bouton-supprimer" data-id="${item.id}" data-liste="${idSection}">Supprimer</button>
       </article>
     `;
   });
@@ -69,17 +69,23 @@ formulaire.addEventListener("submit", async function (evenement) {
 });
 
 /*ecoute du bouton de suppression*/ 
-document.addEventListener("click", function (evenement) {
+document.addEventListener("click", async function (evenement) {
   if (evenement.target.classList.contains("bouton-supprimer")) {
-    const index = evenement.target.dataset.index;
+    const id = evenement.target.dataset.id;
     const idListe = evenement.target.dataset.liste;
 
+    const url = idListe === "section-animes" 
+    ? `http://localhost:3000/api/animes/${id}` 
+    : `http://localhost:3000/api/webtoons/${id}`;
+    
+    await fetch(url, {
+      method: 'DELETE'
+    });
+
     if (idListe === "section-animes") {
-      animes.splice(index, 1);
-      afficherCartes(animes, "section-animes");
+      chargerAnimes();
     } else {
-      webtoons.splice(index, 1);
-      afficherCartes(webtoons, "section-webtoons");
+      chargerWebtoons();
     }
   }
 });
