@@ -39,7 +39,7 @@ chargerWebtoons();
 
 /*ecoute de la soumission du formulaire et ajout à la bonne liste*/
 const formulaire = document.getElementById("formulaire-ajout");
-formulaire.addEventListener("submit", function (evenement) {
+formulaire.addEventListener("submit", async function (evenement) {
   evenement.preventDefault();
 
   const nouvelleEntree = {
@@ -49,13 +49,20 @@ formulaire.addEventListener("submit", function (evenement) {
   };
 
   const type = document.getElementById("input-type").value;
+  const url = type === "anime" ? 'http://localhost:3000/api/animes' : 'http://localhost:3000/api/webtoons';
+
+  await fetch (url,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(nouvelleEntree)
+  })
 
   if (type === "anime") {
-    animes.push(nouvelleEntree);
-    afficherCartes(animes, "section-animes");
+    chargerAnimes
   } else {
-    webtoons.push(nouvelleEntree);
-    afficherCartes(webtoons, "section-webtoons");
+    chargerWebtoons();
   }
 
   formulaire.reset();
