@@ -6,6 +6,7 @@ const db = require('./database.js');
 
 // On crée une "application" Express — c'est notre serveur
 const app = express();
+app.use(express.json());
 
 // On définit sur quel port le serveur va écouter
 const PORT = 3000;
@@ -25,6 +26,14 @@ app.get('/api/animes', (req, res) => {
 app.get('/api/webtoons', (req, res) => {
   const webtoons = db.prepare('SELECT * FROM webtoons').all();
   res.json(webtoons);
+});
+
+//Nouvelle route : ajoute un animé à la base de données
+app.post('/api/animes', (req, res) => {
+  const { titre, synopsis, note } = req.body;
+  const stmt = db.prepare('INSERT INTO animes (titre, synopsis, note) VALUES (?, ?, ?)');
+  const resultat = stmt.run(titre, synopsis, note);
+  res.json({ id: resultat.lastInsertRowid, titre, synopsis, note });
 });
 
 // On démarre le serveur, il écoute maintenant sur le port 3000
