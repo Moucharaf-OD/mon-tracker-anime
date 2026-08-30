@@ -67,10 +67,10 @@ app.delete('/api/webtoons/:id', (req, res) => {
 // Nouvelle route : met à jour un animé dans la base de données
 app.put('/api/animes/:id', (req, res) => {
   const { id } = req.params;
-    const { titre, synopsis, note } = req.body;
-    const stmt = db.prepare('UPDATE animes SET titre = ?, synopsis = ?, note = ? WHERE id = ?');
-    stmt.run(titre, synopsis, note, id);
-    res.json({ id, titre, synopsis, note });
+  const { titre, synopsis, note, titre_secondaire, date_sortie, image } = req.body;
+  const stmt = db.prepare('UPDATE animes SET titre = ?, synopsis = ?, note = ?, titre_secondaire = ?, date_sortie = ?, image = ? WHERE id = ?');
+  stmt.run(titre, synopsis, note, titre_secondaire, date_sortie, image, id);
+  res.json({ id, titre, synopsis, note, titre_secondaire, date_sortie, image });
 });
 
 // Nouvelle route : met à jour un webtoon dans la base de données
