@@ -26,8 +26,9 @@ function afficherCartes(liste, idSection) {
       <article class="carte">
         <img src="https://via.placeholder.com/150x220" alt="Affiche">
         <h3>${item.titre}</h3>
+        <p class="date-sortie">${item.date_sortie ? item.date_sortie : ''}</p>
         <p class="synopsis">${item.synopsis}</p>
-        <p class="note">&#11088; ${item.note}/10</p>
+        <p class="note">&#11088; ${item.note !== null ? item.note + '/10' : 'Non noté'}</p>
         <button class="bouton-supprimer" data-id="${item.id}" data-liste="${idSection}">Supprimer</button>
       </article>
     `;

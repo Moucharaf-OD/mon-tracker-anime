@@ -34,7 +34,7 @@ db.exec(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titre TEXT NOT NULL,
         synopsis TEXT,
-        note INTEGER
+        note INTEGERgit 
     )
 `);
 
