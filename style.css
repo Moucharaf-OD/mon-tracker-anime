@@ -97,6 +97,7 @@ h2 {
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -111,4 +112,32 @@ h2 {
   font-size: 0.8rem;
   opacity: 0.6;
   margin: 0 0.75rem 0.5rem;
+}
+
+.actions-carte {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.actions-carte button {
+  background: none;
+  border: 1px solid var(--bordure);
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--texte);
+  transition: background-color 0.2s ease;
+}
+
+.bouton-supprimer:hover {
+  background-color: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.bouton-modifier:hover {
+  background-color: var(--bordure);
 }

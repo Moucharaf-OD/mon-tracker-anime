@@ -29,7 +29,10 @@ function afficherCartes(liste, idSection) {
         <p class="date-sortie">${item.date_sortie ? item.date_sortie : ''}</p>
         <p class="synopsis">${item.synopsis}</p>
         <p class="note">&#11088; ${item.note !== null ? item.note + '/10' : 'Non noté'}</p>
-        <button class="bouton-supprimer" data-id="${item.id}" data-liste="${idSection}">Supprimer</button>
+        <div class="actions-carte">
+          <button class="bouton-modifier" data-id="${item.id}" data-liste="${idSection}" aria-label="Modifier">&#9998;</button>
+          <button class="bouton-supprimer" data-id="${item.id}" data-liste="${idSection}" aria-label="Supprimer">&#128465;</button>
+        </div>
       </article>
     `;
   });
