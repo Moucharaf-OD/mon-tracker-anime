@@ -1,6 +1,8 @@
 /*Tableau de données pour les animés/webtoon */
 let animes = [];
-let webtoons = []
+let webtoons = [];
+let idEnEdition = null;
+let listeEnEdition = null;
 
 //Chargement des animes depuis l'API
 async function chargerAnimes() {
@@ -24,7 +26,7 @@ function afficherCartes(liste, idSection) {
   liste.forEach(function (item, index) {
     conteneur.innerHTML += `
       <article class="carte">
-        <img src="https://via.placeholder.com/150x220" alt="Affiche">
+        <img src="${item.image ? item.image : 'https://via.placeholder.com/150x220'}" alt="Affiche de ${item.titre}">
         <h3>${item.titre}</h3>
         <p class="date-sortie">${item.date_sortie ? item.date_sortie : ''}</p>
         <p class="synopsis">${item.synopsis}</p>
@@ -46,33 +48,70 @@ const formulaire = document.getElementById("formulaire-ajout");
 formulaire.addEventListener("submit", async function (evenement) {
   evenement.preventDefault();
 
-  const nouvelleEntree = {
-    titre: document.getElementById("input-titre").value,
-    synopsis: document.getElementById("input-synopsis").value,
-    note: document.getElementById("input-note").value
-  };
-
   const type = document.getElementById("input-type").value;
-  const url = type === "anime" ? 'http://localhost:3000/api/animes' : 'http://localhost:3000/api/webtoons';
 
-  await fetch (url,{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(nouvelleEntree)
-  })
+  if (idEnEdition) {
+    // Mode MODIFICATION : on fait un PUT
+    const liste = listeEnEdition === "section-animes" ? animes : webtoons;
+    const itemActuel = liste.find(element => element.id == idEnEdition);
 
-  if (type === "anime") {
-    chargerAnimes()
+    const donneesModifiees = {
+      titre: document.getElementById("input-titre").value,
+      synopsis: document.getElementById("input-synopsis").value,
+      note: document.getElementById("input-note").value || null,
+      titre_secondaire: itemActuel.titre_secondaire,
+      date_sortie: itemActuel.date_sortie,
+      image: itemActuel.image
+    };
+
+    const url = listeEnEdition === "section-animes"
+      ? `http://localhost:3000/api/animes/${idEnEdition}`
+      : `http://localhost:3000/api/webtoons/${idEnEdition}`;
+
+    await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(donneesModifiees)
+    });
+
+    if (listeEnEdition === "section-animes") {
+      chargerAnimes();
+    } else {
+      chargerWebtoons();
+    }
+
+    // On réinitialise le mode édition
+    idEnEdition = null;
+    listeEnEdition = null;
+    formulaire.querySelector("button[type='submit']").textContent = "Ajouter";
+
   } else {
-    chargerWebtoons();
+    // Mode AJOUT : ton code existant, inchangé
+    const nouvelleEntree = {
+      titre: document.getElementById("input-titre").value,
+      synopsis: document.getElementById("input-synopsis").value,
+      note: document.getElementById("input-note").value
+    };
+
+    const url = type === "anime" ? 'http://localhost:3000/api/animes' : 'http://localhost:3000/api/webtoons';
+
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nouvelleEntree)
+    });
+
+    if (type === "anime") {
+      chargerAnimes();
+    } else {
+      chargerWebtoons();
+    }
   }
 
   formulaire.reset();
 });
 
-/*ecoute du bouton de suppression*/ 
+/*ecoute du bouton de suppression et modification*/ 
 document.addEventListener("click", async function (evenement) {
   if (evenement.target.classList.contains("bouton-supprimer")) {
     const id = evenement.target.dataset.id;
@@ -90,6 +129,30 @@ document.addEventListener("click", async function (evenement) {
       chargerAnimes();
     } else {
       chargerWebtoons();
+    }
+  }
+
+  if (evenement.target.classList.contains("bouton-modifier")) {
+    const id = evenement.target.dataset.id;
+    const idListe = evenement.target.dataset.liste;
+
+    // On cherche l'animé/webtoon correspondant dans le tableau déjà chargé
+    const liste = idListe === "section-animes" ? animes : webtoons;
+    const item = liste.find(element => element.id == id);
+
+    if (item) {
+      // On remplit le formulaire avec les valeurs actuelles
+      document.getElementById("input-titre").value = item.titre;
+      document.getElementById("input-synopsis").value = item.synopsis;
+      document.getElementById("input-note").value = item.note !== null ? item.note : "";
+      document.getElementById("input-type").value = idListe === "section-animes" ? "anime" : "webtoon";
+
+      // On mémorise qu'on est en train de modifier CET élément précis
+      idEnEdition = id;
+      listeEnEdition = idListe;
+
+      // On change le texte du bouton pour que ce soit clair
+      formulaire.querySelector("button[type='submit']").textContent = "Modifier";
     }
   }
 });
